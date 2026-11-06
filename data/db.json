@@ -1,0 +1,139 @@
+{
+  "employees": [
+    {
+      "id": "3811092a-c9a1-4a29-b5bb-1f9d07c2e875",
+      "nickname": "เบส",
+      "department": "TTTA",
+      "role": "Full-stack"
+    },
+    {
+      "id": "c87d3f83-82ae-4b85-90b4-8ad54a169884",
+      "nickname": "เทพมิ้ง",
+      "department": "SL",
+      "role": "Full-stack"
+    },
+    {
+      "id": "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02",
+      "nickname": "ต้นอ้อ",
+      "department": "SL",
+      "role": "BA"
+    },
+    {
+      "id": "34481e44-a7bf-4d37-a74d-c86ead95cf6d",
+      "nickname": "ต้นใหม่",
+      "department": "SL",
+      "role": "PM"
+    },
+    {
+      "id": "ce53e7b4-d921-4b99-95b6-c0bea885db98",
+      "nickname": "ไบร์ท",
+      "department": "TTTA",
+      "role": "Dev-full-stack"
+    },
+    {
+      "id": "16049e4c-0a9d-4b85-922a-83cdfa04eeb9",
+      "nickname": "ไมค์",
+      "department": "SL",
+      "role": "Dev-full-stack"
+    },
+    {
+      "id": "61f49611-fc6f-4c71-a1ee-40080590a154",
+      "nickname": "โอ",
+      "department": "TTTA",
+      "role": "Dev-full-stack"
+    },
+    {
+      "id": "55bc51f9-4a88-4d72-94ee-d1c492a99498",
+      "nickname": "ตูน",
+      "department": "TTTA",
+      "role": "BA"
+    },
+    {
+      "id": "1600b9b0-1eff-42c1-bba7-2db5edc6238a",
+      "nickname": "ภูมิ",
+      "department": "TTTA",
+      "role": "Dev"
+    }
+  ],
+  "projects": [
+    {
+      "id": "f634e98b-7ace-47ba-8fb7-2d04678eb55e",
+      "name": "Ouster",
+      "memberIds": [
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875",
+        "c87d3f83-82ae-4b85-90b4-8ad54a169884"
+      ]
+    },
+    {
+      "id": "6eac6de5-0890-4845-a768-fdd0966cba27",
+      "name": "ERP-Thaniya",
+      "memberIds": [
+        "34481e44-a7bf-4d37-a74d-c86ead95cf6d",
+        "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02",
+        "55bc51f9-4a88-4d72-94ee-d1c492a99498",
+        "61f49611-fc6f-4c71-a1ee-40080590a154"
+      ]
+    },
+    {
+      "id": "7d40c36b-9c12-4a69-bd6a-c019ce01bb82",
+      "name": "ศรีสะเกษ",
+      "memberIds": [
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875",
+        "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02"
+      ]
+    },
+    {
+      "id": "8858271e-c0ee-4570-b8a4-8118c74342ec",
+      "name": "DOE",
+      "memberIds": [
+        "34481e44-a7bf-4d37-a74d-c86ead95cf6d",
+        "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02",
+        "ce53e7b4-d921-4b99-95b6-c0bea885db98",
+        "16049e4c-0a9d-4b85-922a-83cdfa04eeb9",
+        "61f49611-fc6f-4c71-a1ee-40080590a154"
+      ]
+    },
+    {
+      "id": "7f05ead8-cddd-4e9b-a763-052209f1cadb",
+      "name": "BDI",
+      "memberIds": [
+        "34481e44-a7bf-4d37-a74d-c86ead95cf6d",
+        "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02",
+        "16049e4c-0a9d-4b85-922a-83cdfa04eeb9",
+        "61f49611-fc6f-4c71-a1ee-40080590a154",
+        "ce53e7b4-d921-4b99-95b6-c0bea885db98"
+      ]
+    },
+    {
+      "id": "0b6d10f0-c99b-4524-a526-6bda41327e6f",
+      "name": "DOC",
+      "memberIds": [
+        "c87d3f83-82ae-4b85-90b4-8ad54a169884",
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875"
+      ]
+    },
+    {
+      "id": "b8adf2ab-bb48-454a-ac78-a0ae1f7f8b90",
+      "name": "ห้วยทับทัน",
+      "memberIds": [
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875"
+      ]
+    },
+    {
+      "id": "7136b94b-9e9d-4736-8bcc-b942f1d53c86",
+      "name": "คูบางหลวง",
+      "memberIds": [
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875",
+        "95729d22-7e5a-4537-9dc5-d2b3a9dcfa02"
+      ]
+    },
+    {
+      "id": "964f138d-b8a5-48c3-91cd-1053613efada",
+      "name": "Visa-farm",
+      "memberIds": [
+        "3811092a-c9a1-4a29-b5bb-1f9d07c2e875",
+        "61f49611-fc6f-4c71-a1ee-40080590a154"
+      ]
+    }
+  ]
+}
