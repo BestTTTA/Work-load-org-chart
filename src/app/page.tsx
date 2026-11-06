@@ -1,69 +1,174 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Suspense } from "react";
+import { LoadLegend } from "@/components/load-badge";
+import { BranchNode, OrgChart, RootNode } from "@/components/org-chart";
+import { PageSkeleton } from "@/components/page-skeleton";
+import { PersonNode } from "@/components/person-node";
+import { readDb } from "@/lib/db";
+import type { Db } from "@/lib/types";
+import {
+  groupByDepartment,
+  loadLevel,
+  membersOf,
+  projectsOf,
+  sortEmployees,
+  sortProjects,
+} from "@/lib/workload";
 
-export default function Home() {
+type View = "department" | "project";
+
+const VIEWS: { view: View; label: string; href: string }[] = [
+  { view: "department", label: "ตามสังกัด", href: "/" },
+  { view: "project", label: "ตามโปรเจค", href: "/?view=project" },
+];
+
+export default function HomePage({ searchParams }: PageProps<"/">) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="space-y-4">
+      <h1 className="text-2xl font-semibold">ผังงาน Workload</h1>
+      <Suspense fallback={<PageSkeleton />}>
+        <Overview searchParams={searchParams} />
+      </Suspense>
     </div>
+  );
+}
+
+async function Overview({
+  searchParams,
+}: {
+  searchParams: PageProps<"/">["searchParams"];
+}) {
+  const { view: requested } = await searchParams;
+  const view: View = requested === "project" ? "project" : "department";
+  const db = await readDb();
+
+  if (db.employees.length === 0 && db.projects.length === 0) {
+    return (
+      <div className="rounded-lg border border-dashed border-line bg-surface px-6 py-12 text-center">
+        <p className="font-medium">ยังไม่มีข้อมูลในผังงาน</p>
+        <p className="mt-1 text-sm text-muted">
+          เริ่มจาก
+          <Link href="/employees" className="mx-1 text-accent hover:underline">
+            เพิ่มพนักงาน
+          </Link>
+          แล้ว
+          <Link href="/projects" className="mx-1 text-accent hover:underline">
+            สร้างโปรเจค
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
+  const overloaded = db.employees.filter(
+    (employee) => loadLevel(projectsOf(db, employee.id).length) === "over",
+  ).length;
+
+  return (
+    <>
+      <p className="text-sm text-muted">
+        พนักงาน {db.employees.length} คน · {db.projects.length} โปรเจค · งานล้น{" "}
+        {overloaded} คน
+      </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex rounded-md border border-line bg-surface p-0.5">
+          {VIEWS.map((item) => (
+            <Link
+              key={item.view}
+              href={item.href}
+              aria-current={item.view === view ? "page" : undefined}
+              className={`rounded px-3 py-1.5 text-sm font-medium ${
+                item.view === view
+                  ? "bg-accent text-accent-ink"
+                  : "text-muted hover:text-ink"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+        <LoadLegend />
+      </div>
+      {view === "department" ? (
+        <DepartmentChart db={db} />
+      ) : (
+        <ProjectChart db={db} />
+      )}
+    </>
+  );
+}
+
+function DepartmentChart({ db }: { db: Db }) {
+  return (
+    <OrgChart
+      root={
+        <RootNode
+          title="ทั้งองค์กร"
+          subtitle={`พนักงาน ${db.employees.length} คน`}
+        />
+      }
+      branches={groupByDepartment(db.employees).map((group) => ({
+        key: group.department,
+        head: (
+          <BranchNode
+            title={group.department}
+            subtitle={`${group.employees.length} คน`}
+          />
+        ),
+        leaves: group.employees.map((employee) => {
+          const projects = projectsOf(db, employee.id);
+          return {
+            key: employee.id,
+            node: (
+              <PersonNode
+                nickname={employee.nickname}
+                subtitle={employee.role}
+                projectCount={projects.length}
+                projects={projects}
+              />
+            ),
+          };
+        }),
+      }))}
+    />
+  );
+}
+
+function ProjectChart({ db }: { db: Db }) {
+  return (
+    <OrgChart
+      root={
+        <RootNode title="ทุกโปรเจค" subtitle={`${db.projects.length} โปรเจค`} />
+      }
+      branches={sortProjects(db.projects).map((project) => {
+        const members = sortEmployees(membersOf(db, project));
+        return {
+          key: project.id,
+          head: (
+            <BranchNode
+              title={
+                <Link
+                  href={`/projects/${project.id}`}
+                  className="hover:underline"
+                >
+                  {project.name}
+                </Link>
+              }
+              subtitle={`${members.length} คน`}
+            />
+          ),
+          leaves: members.map((employee) => ({
+            key: employee.id,
+            node: (
+              <PersonNode
+                nickname={employee.nickname}
+                subtitle={`${employee.role} · ${employee.department}`}
+                projectCount={projectsOf(db, employee.id).length}
+              />
+            ),
+          })),
+        };
+      })}
+    />
   );
 }

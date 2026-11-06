@@ -1,0 +1,96 @@
+/* Org chart connectors: root -> branches is a horizontal bus,
+   branch -> leaves is a left-hanging trunk so wide teams stay compact. */
+.org-tree {
+  --gap: 1.5rem;
+  --trunk: 0.875rem;
+  --leaf-gap: 0.625rem;
+  --stub-y: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  min-width: 100%;
+  padding: 1.5rem;
+}
+
+.org-branches {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: var(--gap);
+}
+
+.org-branches::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: var(--gap);
+  border-left: 1px solid var(--line);
+}
+
+.org-branch {
+  position: relative;
+  width: 15rem;
+  box-sizing: content-box;
+  padding: var(--gap) 0.625rem 0;
+}
+
+.org-branch::before,
+.org-branch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: var(--gap);
+  border-top: 1px solid var(--line);
+}
+
+.org-branch::before {
+  right: 50%;
+}
+
+.org-branch::after {
+  left: 50%;
+  border-left: 1px solid var(--line);
+}
+
+.org-branch:first-child::before,
+.org-branch:last-child::after {
+  border-top: 0;
+}
+
+.org-leaves {
+  display: flex;
+  flex-direction: column;
+  gap: var(--leaf-gap);
+  margin: var(--leaf-gap) 0 0 calc(var(--trunk) * 2);
+}
+
+.org-leaf {
+  position: relative;
+}
+
+.org-leaf::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--trunk) * -1);
+  top: calc(var(--leaf-gap) * -1);
+  bottom: 0;
+  width: var(--trunk);
+  border-left: 1px solid var(--line);
+}
+
+.org-leaf::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--trunk) * -1);
+  top: var(--stub-y);
+  width: var(--trunk);
+  border-top: 1px solid var(--line);
+}
+
+.org-leaf:last-child::before {
+  bottom: auto;
+  height: calc(var(--leaf-gap) + var(--stub-y));
+}

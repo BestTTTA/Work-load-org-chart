@@ -1,26 +1,71 @@
 @import "tailwindcss";
+@import "./org-chart.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1b2130;
+  --muted: #5e6778;
+  --line: #c9cfda;
+  --accent: #2f54c8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8edfb;
+  --danger: #b3261e;
+  --free: #566072;
+  --free-soft: #e9ecf1;
+  --normal: #1a7346;
+  --normal-soft: #dff3e7;
+  --busy: #8f5a00;
+  --busy-soft: #fbefd5;
+  --over: #b3261e;
+  --over-soft: #fbe4e2;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #12151c;
+    --surface: #1b202a;
+    --ink: #e8ebf1;
+    --muted: #9aa3b4;
+    --line: #434b5b;
+    --accent: #8ba6f5;
+    --accent-ink: #10141c;
+    --accent-soft: #252f4b;
+    --danger: #f2978f;
+    --free: #aab3c2;
+    --free-soft: #2a303b;
+    --normal: #74d6a1;
+    --normal-soft: #173325;
+    --busy: #eabf6c;
+    --busy-soft: #3b2e13;
+    --over: #f2978f;
+    --over-soft: #42211f;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-free: var(--free);
+  --color-free-soft: var(--free-soft);
+  --color-normal: var(--normal);
+  --color-normal-soft: var(--normal-soft);
+  --color-busy: var(--busy);
+  --color-busy-soft: var(--busy-soft);
+  --color-over: var(--over);
+  --color-over-soft: var(--over-soft);
+  --font-sans: var(--font-plex-thai);
 }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
